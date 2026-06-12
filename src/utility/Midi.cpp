@@ -8,6 +8,11 @@ Pitch bend:
 https://sites.uci.edu/camp2014/2014/04/30/managing-midi-pitchbend-messages/
 */
 
+/*
+Changed the name of one of the functions with the same name, pitchBend, to pitchBendTones.
+The maximum value has been limited to 0x3FFF.
+*/
+
 void Midi::noteOn(uint8_t channel, uint8_t note, uint8_t velocity)
 {
     uint8_t midiMessage[] = {
@@ -114,7 +119,7 @@ void Midi::pitchBend(uint8_t channel, uint16_t value)
     pitchBend(channel, lsb, msb);
 }
 
-void Midi::pitchBend(uint8_t channel, float semitones, float range)
+void Midi::pitchBendTones(uint8_t channel, float semitones, float range)
 {
     if(semitones < -range/2 || semitones > range/2)
         return;

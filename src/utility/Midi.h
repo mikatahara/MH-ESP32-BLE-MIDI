@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include "Debug.h"
 
-
 class Midi {
 public:
     void noteOn(uint8_t channel, uint8_t note, uint8_t velocity);
@@ -25,7 +24,7 @@ public:
      * @param semitones Number of semitones, from -range to +range (pitchbend values outside of range will be ignored)
      * @param range Range of the pitch bend in semitones (default value is 4, which is -2 to +2 semitones)
      * */
-    void pitchBend(uint8_t channel, float semitones, float range = 4);
+    void pitchBendTones(uint8_t channel, float semitones, float range = 4);
     
     void mmcPlay(void);
     void mmcDeferredPlay(void);
