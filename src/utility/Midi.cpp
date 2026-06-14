@@ -11,6 +11,9 @@ https://sites.uci.edu/camp2014/2014/04/30/managing-midi-pitchbend-messages/
 /*
 Changed the name of one of the functions with the same name, pitchBend, to pitchBendTones.
 The maximum value has been limited to 0x3FFF.
+
+Added a function for sending system exclusive message.
+void Midi::sendSysEx(uint8_t *sysex, uint16_t sizeofsysex){}
 */
 
 void Midi::noteOn(uint8_t channel, uint8_t note, uint8_t velocity)
