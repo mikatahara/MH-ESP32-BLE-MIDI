@@ -127,6 +127,76 @@ void Midi::pitchBendTones(uint8_t channel, float semitones, float range)
     pitchBend(channel, integerValue);
 }
 
+/** Send System Exclusive */
+#define PacketSize  20
+void Midi::sendSysEx(uint8_t *sysex, uint16_t sizeofsysex){
+    uint8_t packet[20];
+
+    auto t = millis();
+    uint8_t headerByte = (1 << 7) | ((t >> 7) & ((1 << 6) - 1));
+    uint8_t timestampByte = (1 << 7) | (t & ((1 << 7) - 1));
+    uint8_t j=0, k=0;
+    char str[16];
+
+    packet[j++] = headerByte;
+    packet[j++] = timestampByte;
+
+    while(k<sizeofsysex){
+        if(sysex[k]==0xF7){
+            if(j<=PacketSize-2){
+                packet[j++] = timestampByte;
+                packet[j++] = sysex[k++];
+                /* Debug Print 
+                Serial.print("+");  
+                for(uint8_t ii=0; ii<j; ii++){
+                    sprintf(str,"%02x ",packet[ii]);
+                    Serial.print(str);  
+                }
+                Serial.println("");*/
+                sendPacket(packet,j);
+            } else {
+                /* Debug Print 
+                Serial.print("#");  
+                for(uint8_t ii=0; ii<j; ii++){
+                    sprintf(str,"%02x ",packet[ii]);
+                    Serial.print(str);  
+                }
+                Serial.println("");*/
+                sendPacket(packet,j);
+                j=0;    /* Next packet */
+                packet[j++] = headerByte;
+                packet[j++] = timestampByte;
+                packet[j++] = sysex[k++];
+                /* Debug Print 
+                Serial.print("$");  
+                for(uint8_t ii=0; ii<j; ii++){
+                    sprintf(str,"%02x ",packet[ii]);
+                    Serial.print(str);  
+                }
+                Serial.println("");*/
+                sendPacket(packet,j);
+            }
+            break;
+        } else {
+            packet[j++] = sysex[k++];
+            if(j>=PacketSize){
+                /* Debug Print 
+                Serial.print("@");  
+                for(uint8_t ii=0; ii<j; ii++){
+                    sprintf(str,"%02x ",packet[ii]);
+                    Serial.print(str);  
+                }
+                Serial.println("");*/
+                sendPacket(packet,j);
+                j=0;    /* Next packet */
+                packet[j++] = headerByte;
+            }
+        }
+    }
+
+}
+
+
 // ###################################
 // IO
 

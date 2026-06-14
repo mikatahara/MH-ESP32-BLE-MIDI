@@ -25,6 +25,9 @@ public:
      * @param range Range of the pitch bend in semitones (default value is 4, which is -2 to +2 semitones)
      * */
     void pitchBendTones(uint8_t channel, float semitones, float range = 4);
+
+    /** Send System Exclusive */
+    void sendSysEx(uint8_t *sysex, uint16_t sizeofsysex);
     
     void mmcPlay(void);
     void mmcDeferredPlay(void);
