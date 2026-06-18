@@ -29,6 +29,7 @@ public:
     /** Send System Exclusive */
     void sendSysEx(uint8_t *sysex, uint16_t sizeofsysex);
     
+    /** MIDI Machine Control */
     void mmcPlay(void);
     void mmcDeferredPlay(void);
     void mmcPause(void);
@@ -42,7 +43,7 @@ public:
     void mmcFastForward(void);
     void mmcRewind(void);
     
-
+    /** Callback function for recieving Message*/
     void setNoteOnCallback(void (*callback)(uint8_t channel, uint8_t note, uint8_t velocity, uint16_t timestamp));
     void setNoteOffCallback(void (*callback)(uint8_t channel, uint8_t note, uint8_t velocity, uint16_t timestamp));
     void setAfterTouchPolyCallback(void (*callback)(uint8_t channel, uint8_t note, uint8_t pressure, uint16_t timestamp));

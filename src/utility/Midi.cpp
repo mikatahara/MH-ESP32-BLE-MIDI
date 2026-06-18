@@ -422,8 +422,8 @@ void Midi::sendMMC(mmc_t command)
         command,
         0xF7    //end of sysex
     };
-    sendMessage(midiMessage, sizeof(midiMessage));
-
+//    sendMessage(midiMessage, sizeof(midiMessage));
+    sendSysEx(midiMessage,sizeof(midiMessage));
 }
 
 
